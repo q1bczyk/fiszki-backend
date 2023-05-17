@@ -16,4 +16,4 @@ app.use('/api/flashcards', flashcardsRoutes);
 app.use('/api/flashcards-collections', flashcardsCollectionsRoutes);
 app.use(errorHandler);
 
-app.listen(8080);
+app.listen(process.env.PORT || 8080);
