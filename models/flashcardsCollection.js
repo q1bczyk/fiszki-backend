@@ -17,7 +17,12 @@ const flashcardsCollectionSchema = new Schema({
     flashcards : [{
         type : Schema.Types.ObjectId,
         ref : 'Flashcard'
-    }]
+    }],
+
+    topResult : {
+        type : Number,
+        required : true,
+    } 
 
 });
 

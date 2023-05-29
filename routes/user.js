@@ -33,7 +33,7 @@ router.post('/login',
     ],
     userController.login);
 
-router.put('/users-level', isAuth, 
+router.put('/users-level/:collectionName', isAuth, 
     [
         body('result')
             .isInt({min : 0})

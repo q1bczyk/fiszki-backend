@@ -14,9 +14,6 @@ app.use(bodyParser.json());
 app.use('/api/users', userRoutes);
 app.use('/api/flashcards', flashcardsRoutes);
 app.use('/api/flashcards-collections', flashcardsCollectionsRoutes);
-app.use('/api/test', (req, res, next) => {
-    return res.status(200).json('server works!');
-});
 app.use(errorHandler);
 
 app.listen(process.env.PORT || 8080);

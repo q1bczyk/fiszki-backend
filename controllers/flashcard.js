@@ -45,7 +45,8 @@ exports.addFlashCard = async(req, res, next) => {
             collectionExist = await new FlashcardsCollection({
                 collectionName : collectionName,
                 author : author,
-                flashcards : [newFlashcard]
+                flashcards : [newFlashcard],
+                topResult : 0
             })
         }
         else collectionExist.flashcards.push(newFlashcard);
