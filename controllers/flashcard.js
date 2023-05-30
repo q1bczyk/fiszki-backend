@@ -1,6 +1,7 @@
 const Flashcard = require('../models/flashcard');
 const FlashcardsCollection = require('../models/flashcardsCollection');
 const { validationResult } = require('express-validator');
+const flashcard = require('../models/flashcard');
 
 exports.addFlashCard = async(req, res, next) => {
 
@@ -110,5 +111,24 @@ exports.editFlashcard = async(req, res, next) => {
         return next(error);
     }
     return res.status(200).json('Flashcard edited succesful!');
+
+}
+
+exports.getFlashcard = async(req, res, next) => {
+
+    const flashcardsId = req.params.flashcardsId;
+    let flashcard
+    try{
+        flashcard = await Flashcard.findOne({author : req.user, _id : flashcardsId});
+        if(!flashcard){
+            const error = new Error('Flashcard doesnt exist!');
+            error.statusCode = 400;
+            throw (error);
+        }
+    }catch(error){
+        if(!error.statusCode) error.statusCode = 500;
+        return next(error);
+    }
+    return res.status(200).json(flashcard);
 
 }

@@ -5,6 +5,7 @@ const isAuth = require('../middleware/auth');
 
 const router = express.Router();
 
+router.get('/:flashcardsId', isAuth, flashcardController.getFlashcard);
 router.post('/:collectionName', isAuth,  
     [
         body('language')
