@@ -10,7 +10,7 @@ router.post('/:collectionName', isAuth,
         body('language')
             .isIn('english'),
         body('category')
-            .isIn(['inne', 'dom', 'sklep']),
+            .isIn(['inne', 'dom', 'zakupy', 'praca', 'zdrowie', 'czlowiek', 'turystyka', 'jedzenie', 'edukacja', 'zwierzeta' ]),
         body('word')
             .isLength({ min : 2 }),
         body('translatedWord')
