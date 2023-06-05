@@ -42,5 +42,16 @@ router.put('/users-level/:collectionName', isAuth,
     ],
     userController.levelUp);
 
+router.put('/password-reset', 
+    [
+        body('password')
+            .isAlphanumeric()
+            .isLength({ min : 8 }),
+        body('repeatedPassword')
+            .isAlphanumeric()
+            .isLength({ min : 8 }),
+    ],
+    isAuth, userController.changePassword);
+
 module.exports = router;
 

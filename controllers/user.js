@@ -165,3 +165,40 @@ exports.getUsersLevel = async (req, res, next) => {
     return res.status(200).json(data);
 
 }
+
+exports.changePassword = async (req, res, next) => {
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+        const error = new Error('Wrong data!');
+        error.statusCode = 400;
+        return next(error);
+    }
+
+    const password = req.body.password;
+    const repeatedPassword = req.body.repeatedPassword;
+
+    try{
+        if(password !== repeatedPassword){
+            const error = new Error('Repeated password is diffrent than password!');
+            error.statusCode = 400;
+            return next(error);
+        }
+        const user = await User.findOne({nick : req.user});
+        if(!user){
+            const error = new Error('User does not exist!');
+            error.statusCode = 400;
+            throw (error);
+        }
+        const hashedPassword = await bcrypt
+            .hash(password, 12);
+        user.password = hashedPassword;
+        await user.save();
+    } catch(error){
+        if(!error.statusCode) error.statusCode = 500;
+        return next(error)
+    }
+    return res.status(200).json('Password changed succesful!');
+
+}
