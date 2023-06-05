@@ -1,5 +1,7 @@
 const Flashcardcollection = require('../models/flashcardsCollection');
 const Flashcard = require('../models/flashcard'); 
+const randomIndex = require('../middleware/randomIndex');
+const flashcard = require('../models/flashcard');
 
 exports.getCollections = async(req, res, next) => {
 
@@ -53,4 +55,32 @@ exports.deleteCollection = async(req, res, next) => {
     }
     return res.status(200).json('Deleted succesful!');
 
+}
+
+exports.getCategory = async(req, res, next) => {
+
+    const flashcards = [];
+    const category = req.params.category
+    try{
+        const size = await Flashcard
+            .countDocuments({category : category});
+        const randomArray = randomIndex(size);
+        for(const index of randomArray){
+            const flashcard = await Flashcard
+            .find({category : category })
+            .limit(1)
+            .skip(index - 1)
+            .select('word translatedWord example translatedExample');
+            flashcards.push(flashcard);
+        };
+        if(flashcards.length === 0){
+            const error = new Error('Category does not exist!');
+            error.statusCode = 400;
+            throw (error);
+        }
+    } catch(error){
+        if(!error.statusCode) error.statusCode = 500;
+        return next(error);
+    }
+    return res.status(200).json(flashcards);
 }

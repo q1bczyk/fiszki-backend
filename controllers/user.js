@@ -145,3 +145,23 @@ exports.levelUp = async(req, res, next) => {
     return res.status(200).json("Succes!");
 
 }
+
+exports.getUsersLevel = async (req, res, next) => {
+
+    let data;
+
+    try{
+        const user = await User.findOne({ nick : req.user })
+        if(!user){
+            const error = new Error('User does not exist!');
+            error.statusCode = 400;
+            throw (error);
+        }
+        data = {level : user.level, requiredPoints : user.requiredPoints, points : user.usersPoints }
+    } catch(error){
+        if(!error.statusCode) error.statusCode = 500;
+        return next(error)
+    }
+    return res.status(200).json(data);
+
+}
