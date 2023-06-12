@@ -44,6 +44,9 @@ router.put('/users-level/:collectionName', isAuth,
 
 router.put('/password-reset', 
     [
+        body('email')
+            .isEmail()
+            .isLength({min : 10}),
         body('password')
             .isAlphanumeric()
             .isLength({ min : 8 }),
@@ -51,7 +54,7 @@ router.put('/password-reset',
             .isAlphanumeric()
             .isLength({ min : 8 }),
     ],
-    isAuth, userController.changePassword);
+    userController.changePassword);
 
 module.exports = router;
 

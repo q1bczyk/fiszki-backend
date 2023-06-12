@@ -176,6 +176,7 @@ exports.changePassword = async (req, res, next) => {
         return next(error);
     }
 
+    const email = req.body.email;
     const password = req.body.password;
     const repeatedPassword = req.body.repeatedPassword;
 
@@ -185,7 +186,7 @@ exports.changePassword = async (req, res, next) => {
             error.statusCode = 400;
             return next(error);
         }
-        const user = await User.findOne({nick : req.user});
+        const user = await User.findOne({email : email});
         if(!user){
             const error = new Error('User does not exist!');
             error.statusCode = 400;
