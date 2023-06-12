@@ -56,5 +56,13 @@ router.put('/password-reset',
     ],
     userController.changePassword);
 
+    router.post('/nick-remind', 
+    [
+        body('email')
+            .isEmail()
+            .isLength({min : 10}),
+    ],
+    userController.remindNick);
+
 module.exports = router;
 
