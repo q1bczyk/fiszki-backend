@@ -35,7 +35,7 @@ router.post('/login',
 
 router.get('/users-level', isAuth, userController.getUsersLevel);
 
-router.put('/users-level/:collectionName', isAuth, 
+router.put('/users-level', isAuth, 
     [
         body('result')
             .isInt({min : 0})

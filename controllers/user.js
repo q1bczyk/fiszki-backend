@@ -114,7 +114,6 @@ exports.levelUp = async(req, res, next) => {
     }
 
     const result = req.body.result;
-    const collectionName = req.params.collectionName;
 
     try{
         const user = await User.findOne({ nick : req.user });
@@ -122,16 +121,6 @@ exports.levelUp = async(req, res, next) => {
             const error = new Error('User doesnt exist!');
             error.statusCode = 400;
             throw (error);
-        }
-        const collection = await FlashcardsCollection.findOne({author : req.user, collectionName : collectionName });
-        if(!collection){
-            const error = new Error('Collection doesnt exist!');
-            error.statusCode = 400;
-            throw (error);
-        }
-        if(collection.topResult < result){
-            collection.topResult = result;
-            await collection.save();
         }
         const summary = levelSystem(result, user.usersPoints, user.requiredPoints, user.level)
         user.usersPoints = summary.points;
